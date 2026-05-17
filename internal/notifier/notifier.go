@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/hseinmoussa/claude-autopilot/internal/config"
+	"github.com/mosoriob/claude-autopilot/internal/config"
 )
 
 // Notifier dispatches completion notifications through configured channels.

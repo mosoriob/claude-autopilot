@@ -1,7 +1,7 @@
 # claude-autopilot
 
-[![CI](https://github.com/hseinmoussa/claude-autopilot/actions/workflows/ci.yml/badge.svg)](https://github.com/hseinmoussa/claude-autopilot/actions/workflows/ci.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/hseinmoussa/claude-autopilot)](https://goreportcard.com/report/github.com/hseinmoussa/claude-autopilot)
+[![CI](https://github.com/mosoriob/claude-autopilot/actions/workflows/ci.yml/badge.svg)](https://github.com/mosoriob/claude-autopilot/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mosoriob/claude-autopilot)](https://goreportcard.com/report/github.com/mosoriob/claude-autopilot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Autonomous task runner for Claude Code that queues tasks, detects rate limits, waits for reset, and auto-resumes -- so work keeps moving while you sleep.
@@ -15,15 +15,15 @@ You're working with Claude Code, hit the usage limit, and have to wait hours. Yo
 ## Install
 
 ```bash
-go install github.com/hseinmoussa/claude-autopilot@latest
+go install github.com/mosoriob/claude-autopilot@latest
 ```
 
-Or download a prebuilt binary from [Releases](https://github.com/hseinmoussa/claude-autopilot/releases).
+Or download a prebuilt binary from [Releases](https://github.com/mosoriob/claude-autopilot/releases).
 
 Or build from source:
 
 ```bash
-git clone https://github.com/hseinmoussa/claude-autopilot.git
+git clone https://github.com/mosoriob/claude-autopilot.git
 cd claude-autopilot
 make build
 ```

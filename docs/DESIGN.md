@@ -34,7 +34,7 @@ You're working on a project with Claude Code (or Conductor), hit the rate limit,
 
 ## Phase 1: Project Setup
 
-- [x] Initialize Go module (`go mod init github.com/hseinmoussa/claude-autopilot`)
+- [x] Initialize Go module (`go mod init github.com/mosoriob/claude-autopilot`)
 - [x] Project structure:
   ```
   claude-autopilot/
@@ -747,7 +747,7 @@ Every item must pass before tagging `v0.1.0`:
   - Sends notifications when work completes
   
   ## Install
-  go install github.com/hseinmoussa/claude-autopilot@latest
+  go install github.com/mosoriob/claude-autopilot@latest
   ```
 - [x] **Social launch posts** (draft for each platform):
   - Twitter/X: short + GIF + relevant hashtags

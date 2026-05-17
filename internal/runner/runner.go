@@ -19,14 +19,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/hseinmoussa/claude-autopilot/internal/compat"
-	"github.com/hseinmoussa/claude-autopilot/internal/config"
-	"github.com/hseinmoussa/claude-autopilot/internal/detector"
-	"github.com/hseinmoussa/claude-autopilot/internal/fileutil"
-	"github.com/hseinmoussa/claude-autopilot/internal/lock"
-	"github.com/hseinmoussa/claude-autopilot/internal/notifier"
-	"github.com/hseinmoussa/claude-autopilot/internal/queue"
-	"github.com/hseinmoussa/claude-autopilot/internal/resume"
+	"github.com/mosoriob/claude-autopilot/internal/compat"
+	"github.com/mosoriob/claude-autopilot/internal/config"
+	"github.com/mosoriob/claude-autopilot/internal/detector"
+	"github.com/mosoriob/claude-autopilot/internal/fileutil"
+	"github.com/mosoriob/claude-autopilot/internal/lock"
+	"github.com/mosoriob/claude-autopilot/internal/notifier"
+	"github.com/mosoriob/claude-autopilot/internal/queue"
+	"github.com/mosoriob/claude-autopilot/internal/resume"
 )
 
 // Exit codes returned by Run.

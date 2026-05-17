@@ -9,7 +9,7 @@ claude-autopilot is live: an autonomous task runner for Claude Code.
 - waits + resumes automatically
 - keeps working while you sleep
 
-Install: `go install github.com/hseinmoussa/claude-autopilot@latest`
+Install: `go install github.com/mosoriob/claude-autopilot@latest`
 
 #claude #claudecode #golang #devtools #automation
 
@@ -27,7 +27,7 @@ Main features:
 - smoke + integration tests
 
 Install:
-`go install github.com/hseinmoussa/claude-autopilot@latest`
+`go install github.com/mosoriob/claude-autopilot@latest`
 
 Would love feedback on workflow and edge cases.
 
@@ -44,4 +44,4 @@ Built a Go CLI that:
 - resumes session-aware when possible
 - supports retry/cancel controls while running
 
-Repo: https://github.com/hseinmoussa/claude-autopilot
+Repo: https://github.com/mosoriob/claude-autopilot

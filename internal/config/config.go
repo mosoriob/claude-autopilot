@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hseinmoussa/claude-autopilot/internal/fileutil"
+	"github.com/mosoriob/claude-autopilot/internal/fileutil"
 	"gopkg.in/yaml.v3"
 )
 
