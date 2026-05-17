@@ -135,9 +135,17 @@ var runCmd = &cobra.Command{
 	RunE:  runRun,
 }
 
-var runYes bool
+var (
+	runYes           bool
+	runWatch         bool
+	runWatchInterval time.Duration
+)
 
 func runRun(cmd *cobra.Command, args []string) error {
+	if runWatch && runWatchInterval <= 0 {
+		return fmt.Errorf("--watch-interval must be greater than zero (got %s)", runWatchInterval)
+	}
+
 	// Detect Claude Code version.
 	version, err := compat.DetectVersion()
 	if err != nil {
@@ -175,6 +183,8 @@ func runRun(cmd *cobra.Command, args []string) error {
 		ProjectDir:     resolveProjectDir(),
 		YesFlag:        runYes,
 		PromptPatterns: matchers.PromptPatterns,
+		Watch:          runWatch,
+		WatchInterval:  runWatchInterval,
 	}
 
 	exitCode := r.Run()
@@ -707,6 +717,8 @@ func init() {
 
 	// run command flags.
 	runCmd.Flags().BoolVarP(&runYes, "yes", "y", false, "skip first-run safety prompt")
+	runCmd.Flags().BoolVar(&runWatch, "watch", false, "Keep running after the queue drains; poll for new tasks instead of exiting.")
+	runCmd.Flags().DurationVar(&runWatchInterval, "watch-interval", 10*time.Second, "Poll interval used while idle in watcher mode. Ignored unless --watch is set.")
 
 	// config subcommands.
 	configCmd.AddCommand(configSetCmd)

@@ -82,7 +82,13 @@ type Runner struct {
 	ProjectDir     string
 	YesFlag        bool
 	PromptPatterns []string
-	ShuttingDown   atomic.Bool
+
+	// Watch keeps Run() polling for new tasks instead of exiting when the
+	// queue drains. WatchInterval is the idle poll interval.
+	Watch         bool
+	WatchInterval time.Duration
+
+	ShuttingDown atomic.Bool
 
 	// promptPatterns are used for hang detection when skip_permissions is false.
 	promptPatterns []string
