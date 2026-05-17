@@ -96,13 +96,40 @@ When Claude Code supports `--resume` (v2.0+), `claude-autopilot` saves the sessi
 | Command | Description |
 |---------|-------------|
 | `add <prompt> --dir <path>` | Add a new task to the queue |
-| `run` | Start executing the task queue |
+| `run` [`--watch`] [`--watch-interval <dur>`] | Start executing the task queue; `--watch` keeps polling for new tasks instead of exiting |
 | `list` | Show all tasks in execution order |
 | `status` | Show runner state and queue summary |
 | `retry <id>` | Re-queue a failed or cancelled task |
 | `cancel <id>` | Cancel a pending, waiting, or failed task |
 | `clean` | Remove orphan temp files and rotated logs |
 | `config set\|get\|list\|path` | Manage configuration |
+
+### Watcher Mode
+
+By default `claude-autopilot run` processes the queue once and exits when there
+is nothing left to do. With `--watch` it stays alive instead: when the queue
+drains it prints a run summary, then polls for new tasks on a fixed interval.
+
+```bash
+# Poll every 10s (default) for newly added tasks
+claude-autopilot run --yes --watch
+
+# Poll every 30s instead
+claude-autopilot run --yes --watch --watch-interval 30s
+```
+
+- `--watch-interval` sets the idle poll interval (default `10s`). It must be
+  greater than zero, and is ignored unless `--watch` is also set.
+- While watching, tasks added with `claude-autopilot add` (or by dropping YAML
+  files into the task directory) are picked up on the next poll. Queued
+  `retry`/`cancel` control commands are honored on the next cycle too.
+- The summary and `Watching for new tasks…` line are printed once each time
+  the queue drains — not on every idle poll — and reprinted after a new batch
+  of work completes.
+- Failed tasks stay terminal and remain in the queue; the watcher keeps
+  polling for new work rather than retrying them.
+- Watcher mode runs in the foreground and exits **only** on `Ctrl+C`
+  (`SIGINT`) or `SIGTERM`.
 
 ### Adding Tasks
 
