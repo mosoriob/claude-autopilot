@@ -180,6 +180,10 @@ func (r *Runner) Run() int {
 		}
 
 		if len(tasks) == 0 {
+			if r.Watch {
+				r.idleWait(stateDir, runStarted)
+				continue
+			}
 			fmt.Println("No tasks found. Add tasks with 'claude-autopilot add' or create YAML files in ~/.claude-autopilot/tasks/")
 			return ExitOK
 		}
@@ -293,6 +297,10 @@ func (r *Runner) Run() int {
 		}
 
 		// Step 11: No actionable and no waiting tasks.
+		if r.Watch {
+			r.idleWait(stateDir, runStarted)
+			continue
+		}
 		break
 	}
 
@@ -307,6 +315,35 @@ func (r *Runner) Run() int {
 		return ExitFailed
 	}
 	return ExitOK
+}
+
+// idleWait is invoked from Run() when watcher mode is active and there is no
+// actionable work. It prints the per-batch summary and notification, prints a
+// heartbeat line, then sleeps r.WatchInterval in ticks of at most one second,
+// returning early if a shutdown signal arrives so SIGINT/SIGTERM is honored
+// within ~1s (or within the interval when it is shorter).
+func (r *Runner) idleWait(stateDir string, runStarted time.Time) {
+	r.printSummary(stateDir, runStarted)
+	if r.Notifier != nil {
+		r.Notifier.NotifyComplete("claude-autopilot run completed")
+	}
+	fmt.Printf("Watching for new tasks (every %s)... Ctrl+C to stop\n", r.WatchInterval)
+
+	deadline := time.Now().Add(r.WatchInterval)
+	for {
+		if r.ShuttingDown.Load() {
+			return
+		}
+		remaining := time.Until(deadline)
+		if remaining <= 0 {
+			return
+		}
+		tick := time.Second
+		if remaining < tick {
+			tick = remaining
+		}
+		time.Sleep(tick)
+	}
 }
 
 // executeTask runs a single task through the Claude Code CLI and manages
