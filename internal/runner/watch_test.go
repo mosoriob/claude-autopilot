@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -169,6 +170,55 @@ func TestRun_WatchPicksUpLateTask(t *testing.T) {
 	h.waitStatus("late-task", queue.StatusDone, 5*time.Second)
 
 	// Trigger shutdown and assert ExitSignal.
+	r.ShuttingDown.Store(true)
+	select {
+	case ec := <-done:
+		if ec != ExitSignal {
+			t.Fatalf("Run() returned %d; want ExitSignal (%d)", ec, ExitSignal)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("Run() did not return within 5s after shutdown")
+	}
+}
+
+func TestRun_QuietHeartbeat(t *testing.T) {
+	h := newWatchHarness(t)
+	r := h.newRunner()
+	r.Watch = true
+	r.WatchInterval = 20 * time.Millisecond
+
+	done := make(chan int, 1)
+	go func() { done <- r.Run() }()
+
+	// ~15 idle cycles on the empty queue.
+	time.Sleep(300 * time.Millisecond)
+	select {
+	case ec := <-done:
+		t.Fatalf("Run() exited early with code %d", ec)
+	default:
+	}
+
+	out := h.output()
+	if got := strings.Count(out, "Watching for new tasks"); got != 1 {
+		t.Fatalf("heartbeat printed %d times during idle; want exactly 1", got)
+	}
+	if got := strings.Count(out, "=== Run Summary ==="); got != 1 {
+		t.Fatalf("summary printed %d times during idle; want exactly 1", got)
+	}
+
+	// A task runs → next drain must reprint exactly once more.
+	h.writeTask("t1")
+	h.waitStatus("t1", queue.StatusDone, 5*time.Second)
+	time.Sleep(200 * time.Millisecond) // several more idle cycles after the drain
+
+	out = h.output()
+	if got := strings.Count(out, "Watching for new tasks"); got != 2 {
+		t.Fatalf("heartbeat printed %d times total; want exactly 2 (one per drain)", got)
+	}
+	if got := strings.Count(out, "=== Run Summary ==="); got != 2 {
+		t.Fatalf("summary printed %d times total; want exactly 2 (one per drain)", got)
+	}
+
 	r.ShuttingDown.Store(true)
 	select {
 	case ec := <-done:
