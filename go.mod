@@ -1,4 +1,4 @@
-module github.com/hseinmoussa/claude-autopilot
+module github.com/mosoriob/claude-autopilot
 
 go 1.24.2
 

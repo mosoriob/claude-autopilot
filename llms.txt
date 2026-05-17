@@ -12,7 +12,7 @@
 - Sends notifications when work completes (terminal bell, webhook, desktop)
 
 ## Install
-go install github.com/hseinmoussa/claude-autopilot@latest
+go install github.com/mosoriob/claude-autopilot@latest
 
 ## Quick usage
 claude-autopilot add "Implement auth module" --dir . --priority 1

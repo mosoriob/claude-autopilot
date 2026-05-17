@@ -22,7 +22,7 @@ import (
 //  2. Otherwise, use system local timezone.
 //  3. If the parsed time is in the past:
 //     - If an explicit date was present in the string, return an error
-//       (caller should fall back to backoff).
+//     (caller should fall back to backoff).
 //     - If time-only, assume today first; if still in the past, add 24h.
 func ParseResetTime(s string) (time.Time, error) {
 	if s == "" {

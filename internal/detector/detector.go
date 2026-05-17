@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hseinmoussa/claude-autopilot/internal/timeparse"
+	"github.com/mosoriob/claude-autopilot/internal/timeparse"
 )
 
 // DetectionResult classifies the outcome of a Claude CLI invocation.
@@ -45,9 +45,9 @@ type RateLimitResult struct {
 
 // Detector inspects CLI exit codes and output to detect rate limits.
 type Detector struct {
-	patterns           []string
-	rateLimitExitCode  int
-	resetTimeRegex     *regexp.Regexp
+	patterns          []string
+	rateLimitExitCode int
+	resetTimeRegex    *regexp.Regexp
 }
 
 // NewDetector creates a Detector with the given stderr/stdout patterns and

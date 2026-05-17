@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/hseinmoussa/claude-autopilot/cmd"
+	"github.com/mosoriob/claude-autopilot/cmd"
 )
 
 // version is injected at build time via -ldflags "-X main.version=<value>".
